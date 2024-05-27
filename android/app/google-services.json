@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "192885778627",
+    "project_id": "pmob-a2f19",
+    "storage_bucket": "pmob-a2f19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192885778627:android:25d941b15a5522b48a9a76",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdLzfijZEF8enJJLIDtDZe83kUPwr_QI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192885778627:android:1f62326eb1dd7c788a9a76",
+        "android_client_info": {
+          "package_name": "com.example.pmob_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdLzfijZEF8enJJLIDtDZe83kUPwr_QI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
