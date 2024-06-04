@@ -1,19 +1,21 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:pmob_project/view/navbar.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+class DashboardUser extends StatefulWidget {
+  const DashboardUser({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<DashboardUser> createState() => _DashboardUserState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardUserState extends State<DashboardUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
+      bottomNavigationBar: Navbar(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.lightBlue[300],

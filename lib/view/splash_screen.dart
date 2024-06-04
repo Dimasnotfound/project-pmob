@@ -19,9 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (loginViewModel.isLoggedIn) {
-        Navigator.pushReplacementNamed(context, RouteNames.dashboard);
-      } else {}
+        if (loginViewModel.userRole == 'users') {
+          Navigator.pushReplacementNamed(context, RouteNames.dashboardUser);
+        } else if (loginViewModel.userRole == 'admin') {
+          Navigator.pushReplacementNamed(context, RouteNames.dashboardAdmin);
+        }
+      }
     });
+
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
       body: Center(

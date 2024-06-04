@@ -9,8 +9,10 @@ class LoginViewModel extends ChangeNotifier {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _isLoggedIn = false;
+  String _userRole = '';
 
   bool get isLoggedIn => _isLoggedIn;
+  String get userRole => _userRole;
 
   LoginViewModel() {
     _checkLoginStatus();
@@ -39,6 +41,7 @@ class LoginViewModel extends ChangeNotifier {
       if (userQuery.docs.isNotEmpty) {
         // Autentikasi berhasil
         _isLoggedIn = true;
+        _userRole = userQuery.docs.first.get('role');
         final prefs = await SharedPreferences.getInstance();
         prefs.setBool('isLoggedIn', true);
         notifyListeners();
@@ -53,6 +56,7 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> logout() async {
     _isLoggedIn = false;
+    _userRole = '';
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLoggedIn', false);
     notifyListeners();

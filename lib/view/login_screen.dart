@@ -81,13 +81,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     _emailController.text,
                     _passwordController.text,
                   );
-                  // Navigasi ke halaman utama jika login berhasil
+                  // Navigasi ke halaman berdasarkan role pengguna
                   if (loginViewModel.isLoggedIn) {
-                    Navigator.pushNamed(context, RouteNames.dashboard);
-                    Utils.showSuccessSnackBar(
-                      Overlay.of(context),
-                      "Data Berhasil Disimpan",
-                    );
+                    if (loginViewModel.userRole == 'users') {
+                      Navigator.pushNamed(context, RouteNames.dashboardUser);
+                      Utils.showSuccessSnackBar(
+                        Overlay.of(context),
+                        "Data Berhasil Disimpan",
+                      );
+                    } else if (loginViewModel.userRole == 'admin') {
+                      Navigator.pushNamed(context, RouteNames.dashboardAdmin);
+                      Utils.showSuccessSnackBar(
+                        Overlay.of(context),
+                        "Data Berhasil Disimpan",
+                      );
+                    }
                   }
                 } catch (e) {
                   // Tampilkan pesan error jika login gagal

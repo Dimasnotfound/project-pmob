@@ -93,6 +93,16 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
             ),
             SizedBox(height: 16),
             TextField(
+              controller: akunViewModel.alamatController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                labelText: 'Alamat Pengguna',
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
               controller: akunViewModel.passwordController,
               obscureText: true,
               decoration: InputDecoration(
