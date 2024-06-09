@@ -130,4 +130,17 @@ class TambahDaurulangViewModel extends ChangeNotifier {
       );
     }
   }
+
+  Future<void> deleteItem(String id) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('daur_ulang')
+          .doc(id)
+          .delete();
+      // Refresh data setelah penghapusan
+      fetchDataFromFirestore();
+    } catch (e) {
+      // Handle error
+    }
+  }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pmob_project/utils/routes/routes_names.dart';
 import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
+import 'package:provider/provider.dart';
+import 'package:pmob_project/utils/utils.dart';
+
 
 class JenisdaurulangAdmin extends StatefulWidget {
   const JenisdaurulangAdmin({Key? key}) : super(key: key);
@@ -155,7 +158,40 @@ class ArtikelCard extends StatelessWidget {
                 SizedBox(width: 8),
                 TextButton(
                   onPressed: () {
-                    // Delete action
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Konfirmasi"),
+                          content: Text(
+                              "Apakah Anda yakin ingin menghapus item ini?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Batal"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // Hapus item dari view model dan Firestore
+                                Provider.of<TambahDaurulangViewModel>(
+                                  context,
+                                  listen: false,
+                                ).deleteItem(id);
+
+                                Utils.showSuccessSnackBar(
+                                  Overlay.of(context),
+                                  "Data berhasil Dihapus",
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: Text("Hapus"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Text(
                     'Delete',
