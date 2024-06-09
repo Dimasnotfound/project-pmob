@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _isLoggedIn = false;
   String _userRole = '';
@@ -26,28 +24,27 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     try {
-      // Hash password menggunakan SHA-256
-      var bytes = utf8.encode(password);
-      var digest = sha256.convert(bytes);
-      String hashedPassword = digest.toString();
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      // Cari pengguna dengan email dan password yang di-hash
-      var userQuery = await _firestore
-          .collection('users')
-          .where('email', isEqualTo: email)
-          .where('password', isEqualTo: hashedPassword)
-          .get();
+      User? user = userCredential.user;
 
-      if (userQuery.docs.isNotEmpty) {
-        // Autentikasi berhasil
-        _isLoggedIn = true;
-        _userRole = userQuery.docs.first.get('role');
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setBool('isLoggedIn', true);
-        notifyListeners();
+      if (user != null) {
+        var userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          _isLoggedIn = true;
+          _userRole = userDoc['role'];
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setBool('isLoggedIn', true);
+          notifyListeners();
+        } else {
+          throw Exception('Data pengguna tidak ditemukan.');
+        }
       } else {
-        // Autentikasi gagal
-        throw Exception('Email atau password salah');
+        throw Exception('Pengguna tidak ditemukan.');
       }
     } catch (e) {
       throw Exception('Login gagal: $e');
@@ -55,10 +52,12 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> logout() async {
+    await _auth.signOut();
     _isLoggedIn = false;
     _userRole = '';
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLoggedIn', false);
+    prefs.remove('userRole');
     notifyListeners();
   }
 }

@@ -20,14 +20,21 @@ class _ArtikelAdminState extends State<ArtikelAdmin> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Add the functionality to go back to the previous screen
-            Navigator.pop(context);
-          },
+        automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     // Add the functionality to go back to the previous screen
+        //     Navigator.pop(context);
+        //   },
+        // ),
+        title: Text(
+          'Artikel',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500),
         ),
-        title: Text('Artikel'),
         centerTitle: true,
       ),
       body: Container(

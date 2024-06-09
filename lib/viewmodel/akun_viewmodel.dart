@@ -1,5 +1,3 @@
-// import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:pmob_project/services/firebase_services.dart';
 import 'package:pmob_project/utils/utils.dart';
@@ -33,7 +31,7 @@ class AkunViewModel extends ChangeNotifier {
   Future<void> register(BuildContext context) async {
     try {
       // Menggunakan await untuk menunggu operasi async selesai
-      await _firebaseService.tambahDataUser(
+      await _firebaseService.registerUser(
         nama: namaController.text,
         email: emailController.text,
         nomorPonsel: nomorPonselController.text,
@@ -44,8 +42,11 @@ class AkunViewModel extends ChangeNotifier {
       // Menampilkan snackbar sukses
       Utils.showSuccessSnackBar(
         Overlay.of(context),
-        "Data Berhasil Disimpan",
+        "Registrasi Berhasil",
       );
+
+      // Membersihkan controller setelah registrasi sukses
+      clearControllers();
     } catch (e) {
       // Menangani error dan menampilkan pesan kesalahan
       Utils.showErrorSnackBar(

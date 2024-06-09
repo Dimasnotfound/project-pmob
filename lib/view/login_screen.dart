@@ -87,13 +87,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushNamed(context, RouteNames.dashboardUser);
                       Utils.showSuccessSnackBar(
                         Overlay.of(context),
-                        "Data Berhasil Disimpan",
+                        "Berhasil Masuk sebagai User",
                       );
                     } else if (loginViewModel.userRole == 'admin') {
                       Navigator.pushNamed(context, RouteNames.dashboardAdmin);
                       Utils.showSuccessSnackBar(
                         Overlay.of(context),
-                        "Data Berhasil Disimpan",
+                        "Berhasil Masuk sebagai Admin",
                       );
                     }
                   }

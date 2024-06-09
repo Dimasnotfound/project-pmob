@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pmob_project/utils/routes/routes_names.dart';
 import 'package:pmob_project/view/admin/artikel_admin.dart';
-import 'package:pmob_project/view/admin/jenisdaurulang_admin.dart';
+import 'package:pmob_project/view/admin/crud_daurulang/edit_daurulang.dart';
+import 'package:pmob_project/view/admin/crud_daurulang/tambah_daurulang.dart';
+import 'package:pmob_project/view/admin/crud_daurulang/jenisdaurulang_admin.dart';
 import 'package:pmob_project/view/admin/penukaranpoin_admin.dart';
 import 'package:pmob_project/view/splash_screen.dart';
 import 'package:pmob_project/view/login_screen.dart';
@@ -34,6 +36,16 @@ class Routes {
       case (RouteNames.jenisDaurUlangAdmin):
         return MaterialPageRoute(
             builder: (BuildContext context) => const JenisdaurulangAdmin());
+      case (RouteNames.tambahDaurUlangAdmin):
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const TambahDaurulang());
+      case RouteNames.editDaurUlangAdmin:
+        // Dapatkan ID dari argumen yang diterima
+        final String id = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (BuildContext context) => EditDaurulang(id: id),
+        );
+
       // USERS
       case (RouteNames.dashboardUser):
         return MaterialPageRoute(

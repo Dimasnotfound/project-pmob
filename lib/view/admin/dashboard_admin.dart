@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pmob_project/utils/routes/routes_names.dart';
-import 'navbar_admin.dart';
 
 class DashboardAdmin extends StatefulWidget {
   final VoidCallback navigateToJadwalPenjemputan;
+  final VoidCallback navigateToArtikel;
+  final VoidCallback navigateToDaurUlang;
+  final VoidCallback navigateToPenukaranUang;
 
-  const DashboardAdmin({super.key, required this.navigateToJadwalPenjemputan});
+  const DashboardAdmin(
+      {super.key,
+      required this.navigateToJadwalPenjemputan,
+      required this.navigateToArtikel,
+      required this.navigateToDaurUlang,
+      required this.navigateToPenukaranUang});
 
   @override
   State<DashboardAdmin> createState() => _DashboardAdminState();
@@ -15,6 +22,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Color(0xFF77B6FF), // Custom blue background
         automaticallyImplyLeading: false,
@@ -47,16 +55,12 @@ class _DashboardAdminState extends State<DashboardAdmin> {
             AdminOptionCard(
               title: 'Jenis Daur Ulang',
               color: Colors.green,
-              onPressed: () {
-                Navigator.pushNamed(context, RouteNames.jenisDaurUlangAdmin);
-              },
+              onPressed: widget.navigateToDaurUlang,
             ),
             AdminOptionCard(
               title: 'Artikel',
               color: Colors.red,
-              onPressed: () {
-                Navigator.pushNamed(context, RouteNames.artikelAdmin);
-              },
+              onPressed: widget.navigateToArtikel,
             ),
             AdminOptionCard(
               title: 'Jadwal Penjemputan',
@@ -66,9 +70,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
             AdminOptionCard(
               title: 'Penukaran Uang',
               color: Colors.blue,
-              onPressed: () {
-                // Tambahkan logika untuk edit Penukaran Poin
-              },
+              onPressed: widget.navigateToPenukaranUang,
             ),
           ],
         ),

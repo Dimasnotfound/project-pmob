@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pmob_project/view/admin/jadwalpenjemputan_admin.dart';
 import 'dashboard_admin.dart';
+import 'artikel_admin.dart';
+import 'crud_daurulang/jenisdaurulang_admin.dart';
+import 'penukaranuang_admin.dart';
 
 class NavbarAdmin extends StatefulWidget {
   const NavbarAdmin({Key? key}) : super(key: key);
@@ -21,12 +24,22 @@ class _NavbarAdminState extends State<NavbarAdmin> {
     _pages = [
       DashboardAdmin(
         navigateToJadwalPenjemputan: () {
+          _pageController.jumpToPage(3);
+        },
+        navigateToArtikel: () {
           _pageController.jumpToPage(2);
         },
+        navigateToDaurUlang: () {
+          _pageController.jumpToPage(1);
+        },
+        navigateToPenukaranUang: () {
+          _pageController.jumpToPage(4);
+        },
       ),
-      DeleteScreen(),
+      JenisdaurulangAdmin(),
+      ArtikelAdmin(),
       JadwalpenjemputanAdmin(),
-      PointExchangeScreen(),
+      PenukaranuangAdmin(),
     ];
   }
 
@@ -46,6 +59,7 @@ class _NavbarAdminState extends State<NavbarAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -83,6 +97,9 @@ class _NavbarAdminState extends State<NavbarAdmin> {
                 icon: Icons.delete,
               ),
               GButton(
+                icon: Icons.article,
+              ),
+              GButton(
                 icon: Icons.local_shipping,
               ),
               GButton(
@@ -102,6 +119,13 @@ class DeleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: Text('Delete Screen'));
+  }
+}
+
+class Article extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('article Screen'));
   }
 }
 

@@ -28,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.lightGreen[100],
       body: Center(
         child: Padding(

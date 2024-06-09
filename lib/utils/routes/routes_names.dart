@@ -7,6 +7,8 @@ class RouteNames {
   static const String penukaranPoinAdmin = "penukaran_admin";
   static const String artikelAdmin = "artikel_admin";
   static const String jenisDaurUlangAdmin = "jenisdaurulang_admin";
+  static const String tambahDaurUlangAdmin = "tambah_daurulang";
+  static const String editDaurUlangAdmin = 'edit_daurulang';
 
   // USERS
   static const String dashboardUser = "dashboard_user";
