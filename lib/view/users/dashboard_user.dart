@@ -1,21 +1,23 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:pmob_project/view/navbar.dart';
+import 'package:pmob_project/utils/routes/routes_names.dart';
+import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
 
 class DashboardUser extends StatefulWidget {
-  const DashboardUser({super.key});
+  const DashboardUser({Key? key});
 
   @override
   State<DashboardUser> createState() => _DashboardUserState();
 }
 
 class _DashboardUserState extends State<DashboardUser> {
+  final TambahartikelViewmodel viewModel = TambahartikelViewmodel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
-      bottomNavigationBar: Navbar(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.lightBlue[300],
@@ -116,12 +118,34 @@ class _DashboardUserState extends State<DashboardUser> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 16),
-          _buildNewsCard(
-              '7,2 Juta Ton Sampah di Indonesia Belum Terkelola Dengan Baik',
-              '30 Februari 1999',
-              'Baca Selengkapnya'),
-          _buildNewsCard('Sebegini Parah Ternyata Masalah Sampah Plastik',
-              '31 Februari 2070', 'Baca Selengkapnya'),
+          StreamBuilder(
+            stream: viewModel.articlesStream,
+            builder:
+                (context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                final articles = snapshot.data!;
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: articles.length,
+                  itemBuilder: (context, index) {
+                    final article = articles[index];
+                    return ArtikelCard(
+                      id: article['id'], // Tambahkan ID
+                      title: article['name'],
+                      description: article['description'],
+                      image: article['imageUrl'],
+                    );
+                  },
+                );
+              }
+            },
+          ),
         ],
       ),
     );
@@ -146,24 +170,81 @@ class _DashboardUserState extends State<DashboardUser> {
       ),
     );
   }
+}
 
-  Widget _buildNewsCard(String title, String date, String buttonText) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 4,
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16.0),
-        title: Text(title),
-        subtitle: Text(date),
-        trailing: TextButton(
-          onPressed: () {
-            // Aksi ketika tombol diklik
-          },
-          child: Text(buttonText),
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-          ),
+class ArtikelCard extends StatelessWidget {
+  final String id;
+  final String title;
+  final String description;
+  final String image;
+
+  ArtikelCard({
+    required this.id, // Tambahkan parameter ID
+    required this.title,
+    required this.description,
+    required this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Card(
+        elevation: 3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  width: 30,
+                  height: 100,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+              subtitle: Text(
+                description.length > 60
+                    ? '${description.substring(0, 60)}...'
+                    : description,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    await Navigator.pushNamed(
+                      context,
+                      RouteNames.detilArtikel,
+                      arguments: id,
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text('Baca Selengkapnya'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

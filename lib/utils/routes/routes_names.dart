@@ -15,4 +15,5 @@ class RouteNames {
 
   // USERS
   static const String dashboardUser = "dashboard_user";
+  static const String detilArtikel = "detil_artikel";
 }

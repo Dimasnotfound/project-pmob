@@ -9,6 +9,10 @@ class EditartikelViewmodel extends ChangeNotifier {
   final TextEditingController nameEditController = TextEditingController();
   final TextEditingController descriptionEditController =
       TextEditingController();
+  final TextEditingController artikelNamaController = TextEditingController();
+  final TextEditingController artikelDeskripController =
+      TextEditingController();
+  final TextEditingController imageController = TextEditingController();
   XFile? _image;
 
   Future<void> fetchDataFromFirestore(String id) async {
@@ -19,9 +23,24 @@ class EditartikelViewmodel extends ChangeNotifier {
         final data = docSnapshot.data() as Map<String, dynamic>;
         nameEditController.text = data['name'] ?? '';
         descriptionEditController.text = data['description'] ?? '';
+        // imageController.text = data['imageUrl'] ?? '';
       }
     } catch (e) {
-      print("Error fetching data: $e");
+      // print("Error fetching data: $e");
+    }
+  }
+  Future<void> fetchDataFromFirestoreArtikel(String id) async {
+    try {
+      final docSnapshot =
+          await FirebaseFirestore.instance.collection('artikel').doc(id).get();
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>;
+        artikelNamaController.text = data['name'] ?? '';
+        artikelDeskripController.text = data['description'] ?? '';
+        imageController.text = data['imageUrl'] ?? '';
+      }
+    } catch (e) {
+      // print("Error fetching data: $e");
     }
   }
 

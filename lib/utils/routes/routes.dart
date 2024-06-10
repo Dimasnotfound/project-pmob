@@ -11,8 +11,9 @@ import 'package:pmob_project/view/admin/penukaranpoin_admin.dart';
 import 'package:pmob_project/view/splash_screen.dart';
 import 'package:pmob_project/view/login_screen.dart';
 import 'package:pmob_project/view/registrasi_screen.dart';
-import 'package:pmob_project/view/users/dashboard_user.dart';
 import 'package:pmob_project/view/admin/navbar_admin.dart';
+import 'package:pmob_project/view/users/artikel/detailArtikel.dart';
+import 'package:pmob_project/view/users/navbar_user.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -58,11 +59,16 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => EditArtikel(id: id),
         );
+      case RouteNames.detilArtikel:
+        final String id = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (BuildContext context) => Detailartikel(id: id),
+        );
 
       // USERS
       case (RouteNames.dashboardUser):
         return MaterialPageRoute(
-            builder: (BuildContext context) => const DashboardUser());
+            builder: (BuildContext context) => const NavbarUser());
 
       default:
         return MaterialPageRoute(
