@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pmob_project/utils/utils.dart';
+import 'package:trash_solver/utils/utils.dart';
 
 class JadwalpenjemputanViewmodel extends ChangeNotifier {
   final TextEditingController jamMulaiController = TextEditingController();

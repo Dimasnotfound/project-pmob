@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/services/firebase_services.dart';
-import 'package:pmob_project/utils/utils.dart';
+import 'package:trash_solver/services/firebase_services.dart';
+import 'package:trash_solver/utils/utils.dart';
 
 class AkunViewModel extends ChangeNotifier {
   final TextEditingController namaController = TextEditingController();

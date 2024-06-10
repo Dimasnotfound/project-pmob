@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/utils/routes/routes_names.dart';
-import 'package:pmob_project/view/admin/crud_artikel/artikel_admin.dart';
-import 'package:pmob_project/view/admin/crud_artikel/edit_artikel.dart';
-import 'package:pmob_project/view/admin/crud_artikel/tambah_artikel.dart';
-import 'package:pmob_project/view/admin/crud_daurulang/edit_daurulang.dart';
-import 'package:pmob_project/view/admin/crud_daurulang/tambah_daurulang.dart';
-import 'package:pmob_project/view/admin/crud_daurulang/jenisdaurulang_admin.dart';
-import 'package:pmob_project/view/admin/crud_jadwalpenjemputan/jadwalpenjemputan_admin.dart';
-import 'package:pmob_project/view/admin/penukaranpoin_admin.dart';
-import 'package:pmob_project/view/splash_screen.dart';
-import 'package:pmob_project/view/login_screen.dart';
-import 'package:pmob_project/view/registrasi_screen.dart';
-import 'package:pmob_project/view/admin/navbar_admin.dart';
-import 'package:pmob_project/view/users/artikel/detailArtikel.dart';
-import 'package:pmob_project/view/users/jenis_sampah/detil_jenisSampah.dart';
-import 'package:pmob_project/view/users/lokasi_daurulang/lokasi_daur_ulang.dart';
-import 'package:pmob_project/view/users/navbar_user.dart';
-import 'package:pmob_project/view/users/profil/profil.dart';
+import 'package:trash_solver/utils/routes/routes_names.dart';
+import 'package:trash_solver/view/admin/crud_artikel/artikel_admin.dart';
+import 'package:trash_solver/view/admin/crud_artikel/edit_artikel.dart';
+import 'package:trash_solver/view/admin/crud_artikel/tambah_artikel.dart';
+import 'package:trash_solver/view/admin/crud_daurulang/edit_daurulang.dart';
+import 'package:trash_solver/view/admin/crud_daurulang/tambah_daurulang.dart';
+import 'package:trash_solver/view/admin/crud_daurulang/jenisdaurulang_admin.dart';
+import 'package:trash_solver/view/admin/crud_jadwalpenjemputan/jadwalpenjemputan_admin.dart';
+import 'package:trash_solver/view/admin/penukaranpoin_admin.dart';
+import 'package:trash_solver/view/splash_screen.dart';
+import 'package:trash_solver/view/login_screen.dart';
+import 'package:trash_solver/view/registrasi_screen.dart';
+import 'package:trash_solver/view/admin/navbar_admin.dart';
+import 'package:trash_solver/view/users/artikel/detailArtikel.dart';
+import 'package:trash_solver/view/users/jenis_sampah/detil_jenisSampah.dart';
+import 'package:trash_solver/view/users/lokasi_daurulang/lokasi_daur_ulang.dart';
+import 'package:trash_solver/view/users/navbar_user.dart';
+import 'package:trash_solver/view/users/profil/profil.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:pmob_project/view/admin/crud_jadwalpenjemputan/jadwalpenjemputan_admin.dart';
+import 'package:trash_solver/view/admin/crud_jadwalpenjemputan/jadwalpenjemputan_admin.dart';
 import 'dashboard_admin.dart';
 import 'crud_artikel/artikel_admin.dart';
 import 'crud_daurulang/jenisdaurulang_admin.dart';

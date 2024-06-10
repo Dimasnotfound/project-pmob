@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/viewmodel/editdaurulang_viewmodel.dart';
+import 'package:trash_solver/viewmodel/editdaurulang_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DetilJenisSampah extends StatefulWidget {

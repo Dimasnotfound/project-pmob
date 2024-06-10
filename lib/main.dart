@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/viewmodel/editartikel_viewmodel.dart';
-import 'package:pmob_project/viewmodel/editdaurulang_viewmodel.dart';
-import 'package:pmob_project/viewmodel/jadwalpenjemputan_viewmodel.dart';
-import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
-import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
+import 'package:trash_solver/viewmodel/editartikel_viewmodel.dart';
+import 'package:trash_solver/viewmodel/editdaurulang_viewmodel.dart';
+import 'package:trash_solver/viewmodel/jadwalpenjemputan_viewmodel.dart';
+import 'package:trash_solver/viewmodel/tambahartikel_viewmodel.dart';
+import 'package:trash_solver/viewmodel/tambahdaurulang_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:pmob_project/utils/routes/routes.dart';
-import 'package:pmob_project/utils/routes/routes_names.dart';
-import 'package:pmob_project/viewmodel/akun_viewmodel.dart';
-import 'package:pmob_project/viewmodel/login_viewmodel.dart';
+import 'package:trash_solver/utils/routes/routes.dart';
+import 'package:trash_solver/utils/routes/routes_names.dart';
+import 'package:trash_solver/viewmodel/akun_viewmodel.dart';
+import 'package:trash_solver/viewmodel/login_viewmodel.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

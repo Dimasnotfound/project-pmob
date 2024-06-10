@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pmob_project/utils/utils.dart';
+import 'package:trash_solver/utils/utils.dart';
 
 class TambahartikelViewmodel extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -40,8 +40,6 @@ class TambahartikelViewmodel extends ChangeNotifier {
     // print(articlesStream);
     notifyListeners();
   }
-
-  
 
   Future<void> saveData(BuildContext context) async {
     // Validasi input tidak boleh kosong

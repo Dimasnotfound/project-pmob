@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/viewmodel/editartikel_viewmodel.dart';
+import 'package:trash_solver/viewmodel/editartikel_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class EditArtikel extends StatefulWidget {

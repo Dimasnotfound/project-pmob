@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pmob_project/viewmodel/login_viewmodel.dart';
-import 'package:pmob_project/utils/routes/routes_names.dart';
-import 'package:pmob_project/utils/utils.dart';
+import 'package:trash_solver/viewmodel/login_viewmodel.dart';
+import 'package:trash_solver/utils/routes/routes_names.dart';
+import 'package:trash_solver/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

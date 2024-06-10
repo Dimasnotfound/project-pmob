@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/utils/routes/routes_names.dart';
-import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
+import 'package:trash_solver/utils/routes/routes_names.dart';
+import 'package:trash_solver/viewmodel/tambahdaurulang_viewmodel.dart';
 
 class JenisSampah extends StatefulWidget {
   const JenisSampah({super.key});

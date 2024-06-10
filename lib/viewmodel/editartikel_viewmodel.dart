@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:pmob_project/utils/utils.dart';
+import 'package:trash_solver/utils/utils.dart';
 
 class EditartikelViewmodel extends ChangeNotifier {
   final TextEditingController nameEditController = TextEditingController();
@@ -29,6 +29,7 @@ class EditartikelViewmodel extends ChangeNotifier {
       // print("Error fetching data: $e");
     }
   }
+
   Future<void> fetchDataFromFirestoreArtikel(String id) async {
     try {
       final docSnapshot =

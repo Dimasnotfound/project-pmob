@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
+import 'package:trash_solver/viewmodel/tambahartikel_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class TambahArtikel extends StatefulWidget {

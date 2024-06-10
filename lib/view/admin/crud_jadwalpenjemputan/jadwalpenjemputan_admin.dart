@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/viewmodel/jadwalpenjemputan_viewmodel.dart';
+import 'package:trash_solver/viewmodel/jadwalpenjemputan_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class JadwalpenjemputanAdmin extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
+import 'package:trash_solver/viewmodel/tambahdaurulang_viewmodel.dart';
 
 class TambahDaurulang extends StatelessWidget {
   const TambahDaurulang({super.key});

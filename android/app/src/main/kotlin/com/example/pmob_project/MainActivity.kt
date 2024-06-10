@@ -1,4 +1,4 @@
-package com.example.pmob_project
+package com.example.trash_solver
 
 import io.flutter.embedding.android.FlutterActivity
 

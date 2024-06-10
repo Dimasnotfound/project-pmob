@@ -1,4 +1,4 @@
-# pmob_project
+# trash_solver
 
 A new Flutter project.
 

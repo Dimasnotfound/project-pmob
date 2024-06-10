@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:pmob_project/utils/routes/routes_names.dart';
+import 'package:trash_solver/utils/routes/routes_names.dart';
 import 'package:provider/provider.dart';
-import 'package:pmob_project/viewmodel/login_viewmodel.dart';
+import 'package:trash_solver/viewmodel/login_viewmodel.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
