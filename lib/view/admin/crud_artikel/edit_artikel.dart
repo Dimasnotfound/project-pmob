@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:pmob_project/viewmodel/editartikel_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
 
-class TambahDaurulang extends StatelessWidget {
-  const TambahDaurulang({super.key});
+class EditArtikel extends StatefulWidget {
+  final String id; // Tambahkan parameter id
+
+  const EditArtikel({super.key, required this.id});
+
+  @override
+  State<EditArtikel> createState() => _EditArtikelState();
+}
+
+class _EditArtikelState extends State<EditArtikel> {
+  @override
+  void initState() {
+    super.initState();
+    // Panggil method fetchDataFromFirestore saat initState
+    context.read<EditartikelViewmodel>().fetchDataFromFirestore(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<TambahDaurulangViewModel>();
+    final viewModel = context.watch<EditartikelViewmodel>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Jenis Daur Ulang',
+          'Edit Artikel',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -33,9 +47,9 @@ class TambahDaurulang extends StatelessWidget {
         child: Column(
           children: <Widget>[
             TextField(
-              controller: viewModel.nameController,
+              controller: viewModel.nameEditController,
               decoration: InputDecoration(
-                labelText: 'Masukkan Nama Jenis Sampah',
+                labelText: 'Masukkan Nama Artikel',
                 suffixIcon: Icon(Icons.edit),
                 border: OutlineInputBorder(),
                 fillColor: Colors.white,
@@ -46,11 +60,11 @@ class TambahDaurulang extends StatelessWidget {
             SizedBox(
               height: 200,
               child: TextField(
-                controller: viewModel.descriptionController,
+                controller: viewModel.descriptionEditController,
                 maxLines: null,
                 expands: true,
                 decoration: InputDecoration(
-                  labelText: 'Masukkan Deskripsi Jenis Sampah',
+                  labelText: 'Masukkan Deskripsi Artikel',
                   suffixIcon: Icon(Icons.edit),
                   border: OutlineInputBorder(),
                   fillColor: Colors.white,
@@ -81,13 +95,13 @@ class TambahDaurulang extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 TextButton(
-                  onPressed: () => viewModel.saveData(context),
+                  onPressed: () => viewModel.saveData(context, widget.id),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.green,
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                   ),
                   child: Text(
-                    'Tambah',
+                    'Edit',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

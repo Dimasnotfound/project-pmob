@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 class EditDaurulang extends StatefulWidget {
   final String id; // Tambahkan parameter id
-  const EditDaurulang({Key? key, required this.id}) : super(key: key);
+  const EditDaurulang({super.key, required this.id});
 
   @override
   State<EditDaurulang> createState() => _EditDaurulangState();

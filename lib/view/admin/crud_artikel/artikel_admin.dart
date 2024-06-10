@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pmob_project/utils/routes/routes_names.dart';
-import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
+import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:pmob_project/utils/utils.dart';
+import 'package:pmob_project/utils/routes/routes_names.dart';
 
-class JenisdaurulangAdmin extends StatefulWidget {
-  const JenisdaurulangAdmin({Key? key}) : super(key: key);
+class ArtikelAdmin extends StatefulWidget {
+  const ArtikelAdmin({super.key});
 
   @override
-  State<JenisdaurulangAdmin> createState() => _JenisdaurulangAdminState();
+  State<ArtikelAdmin> createState() => _ArtikelAdminState();
 }
 
-class _JenisdaurulangAdminState extends State<JenisdaurulangAdmin> {
-  final TambahDaurulangViewModel _viewModel = TambahDaurulangViewModel();
+class _ArtikelAdminState extends State<ArtikelAdmin> {
+  final TambahartikelViewmodel _viewModel = TambahartikelViewmodel();
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _JenisdaurulangAdminState extends State<JenisdaurulangAdmin> {
         backgroundColor: Colors.lightBlue,
         automaticallyImplyLeading: false,
         title: Text(
-          'Jenis Daur Ulang',
+          'Artikel',
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'Poppins',
@@ -51,6 +51,7 @@ class _JenisdaurulangAdminState extends State<JenisdaurulangAdmin> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final articles = snapshot.data!;
+
                     return ListView.builder(
                       itemCount: articles.length,
                       itemBuilder: (context, index) {
@@ -70,7 +71,7 @@ class _JenisdaurulangAdminState extends State<JenisdaurulangAdmin> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, RouteNames.tambahDaurUlangAdmin);
+                Navigator.pushNamed(context, RouteNames.tambahArtikelAdmin);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -145,8 +146,8 @@ class ArtikelCard extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      RouteNames.editDaurUlangAdmin,
-                      arguments: id, // Mengirimkan ID sebagai argumen
+                      RouteNames.editArtikelAdmin,
+                      arguments: id,
                     );
                   },
                   child: Text(
@@ -174,7 +175,7 @@ class ArtikelCard extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 // Hapus item dari view model dan Firestore
-                                Provider.of<TambahDaurulangViewModel>(
+                                Provider.of<TambahartikelViewmodel>(
                                   context,
                                   listen: false,
                                 ).deleteItem(id);

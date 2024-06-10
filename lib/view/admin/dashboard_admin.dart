@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pmob_project/utils/routes/routes_names.dart';
+import 'package:pmob_project/viewmodel/login_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class DashboardAdmin extends StatefulWidget {
   final VoidCallback navigateToJadwalPenjemputan;
@@ -21,6 +23,8 @@ class DashboardAdmin extends StatefulWidget {
 class _DashboardAdminState extends State<DashboardAdmin> {
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<LoginViewModel>();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -49,6 +53,38 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.green,
                 textStyle: TextStyle(fontSize: 16),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Konfirmasi"),
+                      content: Text("Apakah Anda yakin ingin Keluar?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Batal"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            viewModel.logout();
+                            Navigator.pushNamed(context, RouteNames.login);
+                          },
+                          child: Text("iya"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text(
+                'Delete',
+                style: TextStyle(color: Colors.red),
               ),
             ),
             SizedBox(height: 16),

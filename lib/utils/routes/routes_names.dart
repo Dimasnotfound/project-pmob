@@ -9,6 +9,9 @@ class RouteNames {
   static const String jenisDaurUlangAdmin = "jenisdaurulang_admin";
   static const String tambahDaurUlangAdmin = "tambah_daurulang";
   static const String editDaurUlangAdmin = 'edit_daurulang';
+  static const String tambahArtikelAdmin = 'tambah_artikel';
+  static const String editArtikelAdmin = 'edit_artikel';
+  static const String jadwalPenjemputanAdmin = 'jadwalpenjemputanadmin';
 
   // USERS
   static const String dashboardUser = "dashboard_user";

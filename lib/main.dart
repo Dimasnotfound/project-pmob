@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pmob_project/viewmodel/editartikel_viewmodel.dart';
 import 'package:pmob_project/viewmodel/editdaurulang_viewmodel.dart';
+import 'package:pmob_project/viewmodel/jadwalpenjemputan_viewmodel.dart';
+import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
 import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:pmob_project/utils/routes/routes.dart';
@@ -30,6 +33,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => LoginViewModel()),
           ChangeNotifierProvider(create: (_) => TambahDaurulangViewModel()),
           ChangeNotifierProvider(create: (_) => EditDaurulangViewModel()),
+          ChangeNotifierProvider(create: (_) => EditartikelViewmodel()),
+          ChangeNotifierProvider(create: (_) => TambahartikelViewmodel()),
+          ChangeNotifierProvider(create: (_) => JadwalpenjemputanViewmodel()),
         ],
         child: MaterialApp(
           title: 'Trash Solver',

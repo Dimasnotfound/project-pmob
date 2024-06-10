@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
 
-class TambahDaurulang extends StatelessWidget {
-  const TambahDaurulang({super.key});
+class TambahArtikel extends StatefulWidget {
+  const TambahArtikel({super.key});
 
   @override
+  State<TambahArtikel> createState() => _TambahArtikelState();
+}
+
+class _TambahArtikelState extends State<TambahArtikel> {
+  @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<TambahDaurulangViewModel>();
+    final viewModel = context.watch<TambahartikelViewmodel>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Jenis Daur Ulang',
+          'Artikel',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -35,7 +40,7 @@ class TambahDaurulang extends StatelessWidget {
             TextField(
               controller: viewModel.nameController,
               decoration: InputDecoration(
-                labelText: 'Masukkan Nama Jenis Sampah',
+                labelText: 'Masukkan Nama Artikel',
                 suffixIcon: Icon(Icons.edit),
                 border: OutlineInputBorder(),
                 fillColor: Colors.white,
@@ -50,7 +55,7 @@ class TambahDaurulang extends StatelessWidget {
                 maxLines: null,
                 expands: true,
                 decoration: InputDecoration(
-                  labelText: 'Masukkan Deskripsi Jenis Sampah',
+                  labelText: 'Masukkan Deskripsi Artikel',
                   suffixIcon: Icon(Icons.edit),
                   border: OutlineInputBorder(),
                   fillColor: Colors.white,

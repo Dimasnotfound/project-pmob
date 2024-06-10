@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:pmob_project/utils/utils.dart';
 
-class EditDaurulangViewModel extends ChangeNotifier {
+class EditartikelViewmodel extends ChangeNotifier {
   final TextEditingController nameEditController = TextEditingController();
   final TextEditingController descriptionEditController =
       TextEditingController();
@@ -13,10 +13,8 @@ class EditDaurulangViewModel extends ChangeNotifier {
 
   Future<void> fetchDataFromFirestore(String id) async {
     try {
-      final docSnapshot = await FirebaseFirestore.instance
-          .collection('daur_ulang')
-          .doc(id)
-          .get();
+      final docSnapshot =
+          await FirebaseFirestore.instance.collection('artikel').doc(id).get();
       if (docSnapshot.exists) {
         final data = docSnapshot.data() as Map<String, dynamic>;
         nameEditController.text = data['name'] ?? '';
@@ -73,7 +71,7 @@ class EditDaurulangViewModel extends ChangeNotifier {
       // Buat objek untuk menyimpan data yang akan diperbarui
       Map<String, dynamic> updateData = {
         'name': nameEditController.text,
-        'description' : descriptionEditController.text,
+        'description': descriptionEditController.text,
       };
 
       // Tambahkan imageUrl ke dalam updateData jika imageUrl tidak null atau tidak kosong
@@ -82,7 +80,7 @@ class EditDaurulangViewModel extends ChangeNotifier {
       }
 
       // Update data di Firestore
-      await firestore.collection('daur_ulang').doc(id).update(updateData);
+      await firestore.collection('artikel').doc(id).update(updateData);
 
       // Setelah data diperbarui, kosongkan instance _image
       _image = null;

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:pmob_project/view/admin/crud_jadwalpenjemputan/jadwalpenjemputan_admin.dart';
-import 'dashboard_admin.dart';
-import 'crud_artikel/artikel_admin.dart';
-import 'crud_daurulang/jenisdaurulang_admin.dart';
-import 'penukaranuang_admin.dart';
+import 'dashboard_user.dart';
 
-class NavbarAdmin extends StatefulWidget {
-  const NavbarAdmin({Key? key}) : super(key: key);
+class NavbarUser extends StatefulWidget {
+  const NavbarUser({super.key});
 
   @override
-  State<NavbarAdmin> createState() => _NavbarAdminState();
+  State<NavbarUser> createState() => _NavbarUserState();
 }
 
-class _NavbarAdminState extends State<NavbarAdmin> {
+class _NavbarUserState extends State<NavbarUser> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
   late List<Widget> _pages;
@@ -21,26 +17,7 @@ class _NavbarAdminState extends State<NavbarAdmin> {
   @override
   void initState() {
     super.initState();
-    _pages = [
-      DashboardAdmin(
-        navigateToJadwalPenjemputan: () {
-          _pageController.jumpToPage(3);
-        },
-        navigateToArtikel: () {
-          _pageController.jumpToPage(2);
-        },
-        navigateToDaurUlang: () {
-          _pageController.jumpToPage(1);
-        },
-        navigateToPenukaranUang: () {
-          _pageController.jumpToPage(4);
-        },
-      ),
-      JenisdaurulangAdmin(),
-      ArtikelAdmin(),
-      JadwalpenjemputanAdmin(),
-      PenukaranuangAdmin(),
-    ];
+    _pages = [DashboardUser()];
   }
 
   void _onItemTapped(int index) {
