@@ -41,7 +41,9 @@ class _JadwalpenjemputanAdminState extends State<JadwalpenjemputanAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Jadwal Penjemputan'),
         centerTitle: true,
         backgroundColor: Colors.lightBlue,

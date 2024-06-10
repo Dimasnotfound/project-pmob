@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pmob_project/utils/utils.dart';
 
 class JenisdaurulangAdmin extends StatefulWidget {
-  const JenisdaurulangAdmin({Key? key}) : super(key: key);
+  const JenisdaurulangAdmin({super.key});
 
   @override
   State<JenisdaurulangAdmin> createState() => _JenisdaurulangAdminState();

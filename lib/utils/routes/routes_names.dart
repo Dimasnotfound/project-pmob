@@ -16,4 +16,7 @@ class RouteNames {
   // USERS
   static const String dashboardUser = "dashboard_user";
   static const String detilArtikel = "detil_artikel";
+  static const String detilSampah = "detil_sampah";
+  static const String lokasi = "lokasi_daurulang";
+  static const String profil = "profil";
 }

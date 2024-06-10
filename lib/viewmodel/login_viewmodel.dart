@@ -6,11 +6,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginViewModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   bool _isLoggedIn = false;
   String _userRole = '';
 
+  final TextEditingController namaController = TextEditingController();
+  final TextEditingController alamatController = TextEditingController();
+  final TextEditingController noHpController = TextEditingController();
+  final TextEditingController pointsController = TextEditingController();
+
   bool get isLoggedIn => _isLoggedIn;
   String get userRole => _userRole;
+
+  Map<String, dynamic> userData = {};
 
   LoginViewModel() {
     _checkLoginStatus();
@@ -19,6 +27,9 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> _checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     _isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    if (_isLoggedIn) {
+      await fetchUserData();
+    }
     notifyListeners();
   }
 
@@ -37,6 +48,11 @@ class LoginViewModel extends ChangeNotifier {
         if (userDoc.exists) {
           _isLoggedIn = true;
           _userRole = userDoc['role'];
+          userData = userDoc.data()!;
+          namaController.text = userData['nama'] ?? '';
+          alamatController.text = userData['alamat'] ?? '';
+          noHpController.text = userData['nomorPonsel'] ?? '';
+          pointsController.text = userData['points']?.toString() ?? '';
           final prefs = await SharedPreferences.getInstance();
           prefs.setBool('isLoggedIn', true);
           notifyListeners();
@@ -48,6 +64,47 @@ class LoginViewModel extends ChangeNotifier {
       }
     } catch (e) {
       throw Exception('Login gagal: $e');
+    }
+  }
+
+  Future<void> fetchUserData() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      var userDoc = await _firestore.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        userData = userDoc.data()!;
+        namaController.text = userData['nama'] ?? '';
+        alamatController.text = userData['alamat'] ?? '';
+        noHpController.text = userData['nomorPonsel'] ?? '';
+        pointsController.text = userData['points']?.toString() ?? '';
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<int> fetchUserPoints() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      var userDoc = await _firestore.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        final userData = userDoc.data() as Map<String, dynamic>;
+        final userPoints = userData['points'] ?? 0;
+        return userPoints;
+      }
+    }
+    return 0; // Return default value if user document doesn't exist or user is null
+  }
+
+  Future<void> updateUserData() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      await _firestore.collection('users').doc(user.uid).update({
+        'nama': namaController.text,
+        'alamat': alamatController.text,
+        'nomorPonsel': noHpController.text,
+        'points': int.tryParse(pointsController.text) ?? 0,
+      });
+      await fetchUserData();
     }
   }
 

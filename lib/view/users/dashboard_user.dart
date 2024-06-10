@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:pmob_project/utils/routes/routes_names.dart';
+import 'package:pmob_project/viewmodel/login_viewmodel.dart';
 import 'package:pmob_project/viewmodel/tambahartikel_viewmodel.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class DashboardUser extends StatefulWidget {
   const DashboardUser({Key? key});
@@ -14,8 +17,15 @@ class DashboardUser extends StatefulWidget {
 class _DashboardUserState extends State<DashboardUser> {
   final TambahartikelViewmodel viewModel = TambahartikelViewmodel();
 
+  final NumberFormat _numberFormat = NumberFormat.decimalPattern();
+
+  String formatNumber(int number) {
+    return _numberFormat.format(number);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final viewModelAkun = context.watch<LoginViewModel>();
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
@@ -26,14 +36,19 @@ class _DashboardUserState extends State<DashboardUser> {
           'TRASH SOLVER',
           style: TextStyle(color: Colors.white),
         ),
-        actions: const [
+        actions: [
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.transparent,
-              backgroundImage: AssetImage(
-                'assets/profile_image.png',
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, RouteNames.profil);
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage(
+                  'assets/profile_image.png',
+                ),
               ),
             ),
           ),
@@ -43,8 +58,9 @@ class _DashboardUserState extends State<DashboardUser> {
         padding: EdgeInsets.all(16.0),
         children: [
           Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             elevation: 4,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -62,38 +78,65 @@ class _DashboardUserState extends State<DashboardUser> {
                   SizedBox(height: 8),
                   Text('Poin anda sudah terkumpul'),
                   SizedBox(height: 8),
-                  Text(
-                    '9.000.000 P',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green[800],
-                    ),
+                  FutureBuilder(
+                    future: viewModelAkun.fetchUserPoints(),
+                    builder: (context, AsyncSnapshot<int> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        final userPoints = snapshot.data ?? 0;
+                        final formattedPoints = formatNumber(userPoints);
+                        final equivalentMoney = userPoints ~/ 100;
+                        final formattedMoney = formatNumber(equivalentMoney);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$formattedPoints P',
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green[800],
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                                'Bisa dikonversikan menjadi Rp $formattedMoney'),
+                          ],
+                        );
+                      }
+                    },
                   ),
-                  SizedBox(height: 8),
-                  Text('Bisa dikonversikan menjadi Rp 90.000'),
                 ],
               ),
             ),
           ),
           SizedBox(height: 16),
           Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             elevation: 4,
             child: ListTile(
               leading: Image.asset(
-                'assets/recycling_location.jpg', // Ganti dengan gambar yang sesuai
+                'assets/recycling_location.jpg',
+                // Ganti dengan gambar yang sesuai
               ),
               title: Text(
                 'Lokasi daur Ulang sampah',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
-                  'Informasi mengenai lokasi yang menampung daur ulang sampah'),
+                'Informasi mengenai lokasi yang menampung daur ulang sampah',
+              ),
               trailing: ElevatedButton(
-                onPressed: () {
-                  // Aksi ketika tombol diklik
+                onPressed: () async {
+                  await Navigator.pushNamed(
+                    context,
+                    RouteNames.lokasi,
+                  );
                 },
                 child: Text('Kunjungi'),
                 style: ElevatedButton.styleFrom(
@@ -136,7 +179,7 @@ class _DashboardUserState extends State<DashboardUser> {
                   itemBuilder: (context, index) {
                     final article = articles[index];
                     return ArtikelCard(
-                      id: article['id'], // Tambahkan ID
+                      id: article['id'],
                       title: article['name'],
                       description: article['description'],
                       image: article['imageUrl'],
@@ -153,7 +196,9 @@ class _DashboardUserState extends State<DashboardUser> {
 
   Widget _buildIconCard(IconData icon, String text) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(10.0),

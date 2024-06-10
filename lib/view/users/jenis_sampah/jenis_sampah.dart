@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pmob_project/utils/routes/routes_names.dart';
+import 'package:pmob_project/viewmodel/tambahdaurulang_viewmodel.dart';
 
 class JenisSampah extends StatefulWidget {
   const JenisSampah({super.key});
@@ -8,140 +10,144 @@ class JenisSampah extends StatefulWidget {
 }
 
 class _JenisSampahState extends State<JenisSampah> {
+  final TambahDaurulangViewModel _viewModel = TambahDaurulangViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.fetchDataFromFirestore();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xFFACE7EF), // Warna biru
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.green),
-          onPressed: () {
-            // Aksi kembali
-          },
-        ),
+
         title: Text(
-          'Jenis sampah',
-          style: TextStyle(color: Colors.white),
+          'Jenis Sampah',
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w500,
+          ),
         ),
         centerTitle: true,
       ),
       body: Container(
         color: Color(0xFFC8F7C5), // Warna hijau muda
-        child: ListView(
-          padding: EdgeInsets.all(16.0),
-          children: [
-            SampahCard(
-              imageUrl:
-                  'https://via.placeholder.com/150', // Ganti dengan URL gambar yang sesuai
-              title: 'PET atau PETE',
-              date: '30 Februari 1999',
-            ),
-            SampahCard(
-              imageUrl:
-                  'https://via.placeholder.com/150', // Ganti dengan URL gambar yang sesuai
-              title: 'HDPE',
-              date: '30 Februari 1999',
-            ),
-            SampahCard(
-              imageUrl:
-                  'https://via.placeholder.com/150', // Ganti dengan URL gambar yang sesuai
-              title: 'PVC/VINYL',
-              date: '30 Februari 1999',
-            ),
-            SampahCard(
-              imageUrl:
-                  'https://via.placeholder.com/150', // Ganti dengan URL gambar yang sesuai
-              title: 'LDPE',
-              date: '30 Februari 1999',
-            ),
-            SampahCard(
-              imageUrl:
-                  'https://via.placeholder.com/150', // Ganti dengan URL gambar yang sesuai
-              title: 'PP',
-              date: '30 Februari 1999',
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: StreamBuilder<List<Map<String, dynamic>>>(
+                  stream: _viewModel.articlesStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(child: Text('No articles found'));
+                    } else {
+                      final articles = snapshot.data!;
+                      return ListView.builder(
+                        itemCount: articles.length,
+                        itemBuilder: (context, index) {
+                          final article = articles[index];
+                          return ArtikelCard(
+                            id: article['id'],
+                            title: article['name'],
+                            description: article['description'],
+                            image: article['imageUrl'],
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFFACE7EF), // Warna biru
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.black),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.delete, color: Colors.black),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_shipping, color: Colors.black),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money, color: Colors.black),
-            label: '',
-          ),
-        ],
       ),
     );
   }
 }
 
-class SampahCard extends StatelessWidget {
-  final String imageUrl;
+class ArtikelCard extends StatelessWidget {
+  final String id;
   final String title;
-  final String date;
+  final String description;
+  final String image;
 
-  SampahCard({required this.imageUrl, required this.title, required this.date});
+  ArtikelCard({
+    required this.id, // Tambahkan parameter ID
+    required this.title,
+    required this.description,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
-            child: Image.network(
-              imageUrl,
-              height: 150.0,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      date,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Card(
+        elevation: 3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
                 ),
-                Text(
-                  'Baca Selengkapnya',
-                  style: TextStyle(color: Colors.blue),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  width: 30,
+                  height: 100,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(title),
+              subtitle: Text(
+                description.length > 60
+                    ? '${description.substring(0, 60)}...'
+                    : description,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    await Navigator.pushNamed(
+                      context,
+                      RouteNames.detilSampah,
+                      arguments: id,
+                    );
+                  },
+                  child: Text(
+                    'Baca Selengkapnya',
+                    style: TextStyle(color: Colors.blue),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

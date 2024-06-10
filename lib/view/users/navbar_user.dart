@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:pmob_project/view/users/jadwal_penjemputan/jadwal_penjemputan.dart';
 import 'package:pmob_project/view/users/jenis_sampah/jenis_sampah.dart';
+import 'package:pmob_project/view/users/tukar_poin/tukar_poin.dart';
 import 'dashboard_user.dart';
 
 class NavbarUser extends StatefulWidget {
@@ -18,7 +20,7 @@ class _NavbarUserState extends State<NavbarUser> {
   @override
   void initState() {
     super.initState();
-    _pages = [DashboardUser(), JenisSampah(), PengantaranState(), MoneyState()];
+    _pages = [DashboardUser(), JenisSampah(), JadwalPenjemputan(), TukarPoin()];
   }
 
   void _onItemTapped(int index) {

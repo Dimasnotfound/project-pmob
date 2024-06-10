@@ -34,9 +34,10 @@ class FirebaseService {
       await _firestore.collection('users').doc(uid).set({
         'nama': nama,
         'email': email,
-        'nomorPonsel': nomorPonsel,
+        'nomorPonsel': '0$nomorPonsel',
         'password': hashedPassword,
         'alamat': alamat,
+        'points': 0,
         'role': 'users', // Menambahkan field role dengan default 'users'
       });
     } catch (e) {

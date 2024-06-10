@@ -9,6 +9,10 @@ class EditDaurulangViewModel extends ChangeNotifier {
   final TextEditingController nameEditController = TextEditingController();
   final TextEditingController descriptionEditController =
       TextEditingController();
+  final TextEditingController jenisNamaController = TextEditingController();
+  final TextEditingController jenisDeskripsiController =
+      TextEditingController();
+  final TextEditingController imageController = TextEditingController();
   XFile? _image;
 
   Future<void> fetchDataFromFirestore(String id) async {
@@ -23,7 +27,24 @@ class EditDaurulangViewModel extends ChangeNotifier {
         descriptionEditController.text = data['description'] ?? '';
       }
     } catch (e) {
-      print("Error fetching data: $e");
+      // print("Error fetching data: $e");
+    }
+  }
+
+  Future<void> fetchDataFromFirestorejenis(String id) async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('daur_ulang')
+          .doc(id)
+          .get();
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>;
+        jenisNamaController.text = data['name'] ?? '';
+        jenisDeskripsiController.text = data['description'] ?? '';
+        imageController.text = data['imageUrl'] ?? '';
+      }
+    } catch (e) {
+      // print("Error fetching data: $e");
     }
   }
 
@@ -73,7 +94,7 @@ class EditDaurulangViewModel extends ChangeNotifier {
       // Buat objek untuk menyimpan data yang akan diperbarui
       Map<String, dynamic> updateData = {
         'name': nameEditController.text,
-        'description' : descriptionEditController.text,
+        'description': descriptionEditController.text,
       };
 
       // Tambahkan imageUrl ke dalam updateData jika imageUrl tidak null atau tidak kosong

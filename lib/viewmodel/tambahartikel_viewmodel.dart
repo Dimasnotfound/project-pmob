@@ -41,6 +41,8 @@ class TambahartikelViewmodel extends ChangeNotifier {
     notifyListeners();
   }
 
+  
+
   Future<void> saveData(BuildContext context) async {
     // Validasi input tidak boleh kosong
     if (nameController.text.isEmpty || descriptionController.text.isEmpty) {
