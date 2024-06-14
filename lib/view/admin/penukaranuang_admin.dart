@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trash_solver/utils/utils.dart';
 import 'package:trash_solver/viewmodel/penukaranUangAdmin_viewmodel.dart';
 
 class PenukaranuangAdmin extends StatefulWidget {
@@ -75,7 +76,7 @@ class _PenukaranuangAdminState extends State<PenukaranuangAdmin> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 10.0,
@@ -123,6 +124,10 @@ class _PenukaranuangAdminState extends State<PenukaranuangAdmin> {
                                     transaction['docId'],
                                     transaction['points_yang_ditukar'],
                                   );
+                                  Utils.showSuccessSnackBar(
+                                    Overlay.of(context),
+                                    "Penukaran Berhasil Ditolak",
+                                  );
                                 },
                                 child: Text(
                                   'Tolak',
@@ -133,6 +138,10 @@ class _PenukaranuangAdminState extends State<PenukaranuangAdmin> {
                                 onPressed: () async {
                                   await viewModel.konfirmasiPenukaran(
                                     transaction['docId'],
+                                  );
+                                  Utils.showSuccessSnackBar(
+                                    Overlay.of(context),
+                                    "Penukaran Berhasil Dikonfirmasi",
                                   );
                                 },
                                 child: Text(

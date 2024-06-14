@@ -26,9 +26,10 @@ class SampahViewModel extends ChangeNotifier {
 
   Future<void> fetchSampah() async {
     final QuerySnapshot result =
-        await FirebaseFirestore.instance.collection('daur_ulang').get();
+        await _firestore.collection('daur_ulang').get();
     _sampahList =
         result.docs.map((doc) => Sampah(doc['name'], doc['imageUrl'])).toList();
+
     if (_sampahList.isNotEmpty) {
       _selectedSampah = _sampahList[0].name;
       _selectedImageUrl = _sampahList[0].imageUrl;
@@ -44,7 +45,7 @@ class SampahViewModel extends ChangeNotifier {
 
   Future<void> insertTukarPoin(
       String userId, String jenisSampah, double kilo) async {
-    await FirebaseFirestore.instance.collection('tukar_poin').add({
+    await _firestore.collection('tukar_poin').add({
       'userId': userId,
       'jenisSampah': jenisSampah,
       'kilo': kilo,
@@ -54,13 +55,16 @@ class SampahViewModel extends ChangeNotifier {
 
   Future<int> fetchUserPoints() async {
     User? user = _auth.currentUser;
-    // ignore: unnecessary_null_comparison
     if (user != null) {
       var userDoc = await _firestore.collection('users').doc(user.uid).get();
       if (userDoc.exists) {
         final userData = userDoc.data() as Map<String, dynamic>;
-        final userPoints = userData['points'] ?? 0;
-        return userPoints;
+        final userPoints = userData['points'];
+        if (userPoints is int) {
+          return userPoints;
+        } else if (userPoints is double) {
+          return userPoints.toInt();
+        }
       }
     }
     return 0; // Return default value if user document doesn't exist or user is null
