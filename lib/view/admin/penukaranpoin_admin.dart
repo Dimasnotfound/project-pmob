@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trash_solver/utils/utils.dart';
+import 'package:trash_solver/viewmodel/penukaranPoin_viewmodel.dart'; // Update this path accordingly
 
 class PenukaranPoinAdmin extends StatefulWidget {
   const PenukaranPoinAdmin({super.key});
@@ -8,23 +11,23 @@ class PenukaranPoinAdmin extends StatefulWidget {
 }
 
 class _PenukaranPoinAdminState extends State<PenukaranPoinAdmin> {
-  bool _isNotificationVisible = true;
-
-  void _hideNotification() {
-    setState(() {
-      _isNotificationVisible = false;
-    });
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<PenukaranPoinAdminViewModel>(context, listen: false)
+        .fetchTukarPoinData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<PenukaranPoinAdminViewModel>();
+
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Add the functionality to go back to the previous screen
             Navigator.pop(context);
           },
         ),
@@ -38,16 +41,26 @@ class _PenukaranPoinAdminState extends State<PenukaranPoinAdmin> {
         ),
         backgroundColor: Colors.lightBlue[300],
       ),
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter, // Align the box to the top center
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 16.0), // Add some padding to the top
-              child: _isNotificationVisible
-                  ? Container(
-                      margin: EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: viewModel.groupedTukarPoinData.isEmpty
+              ? Center(
+                  child: Text(
+                    'Tidak ada notifikasi',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )
+              : Column(
+                  children: viewModel.groupedTukarPoinData.entries.map((entry) {
+                    final userId = entry.key;
+                    final userTukarPoinData = entry.value;
+                    final userName = userTukarPoinData[0]['userName'];
+                    final totalPoints =
+                        viewModel.calculateTotalPoints(userTukarPoinData);
+
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
                       padding: EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -57,7 +70,7 @@ class _PenukaranPoinAdminState extends State<PenukaranPoinAdmin> {
                             color: Colors.black12,
                             blurRadius: 10.0,
                             spreadRadius: 2.0,
-                          )
+                          ),
                         ],
                       ),
                       child: Column(
@@ -65,7 +78,7 @@ class _PenukaranPoinAdminState extends State<PenukaranPoinAdmin> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'User 1',
+                            userName,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -74,11 +87,14 @@ class _PenukaranPoinAdminState extends State<PenukaranPoinAdmin> {
                           SizedBox(height: 8.0),
                           Text('Menukarkan:'),
                           SizedBox(height: 8.0),
-                          Text('Sampah Jenis a        20 kg'),
-                          Text('Sampah Jenis b        40 kg'),
+                          ...userTukarPoinData.map((item) {
+                            return Text(
+                              '${item['jenisSampah']}        ${item['kilo']} kg',
+                            );
+                          }).toList(),
                           SizedBox(height: 8.0),
                           Text(
-                            'Poin ditukar: 10000 poin',
+                            'Poin ditukar: $totalPoints poin',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 16.0),
@@ -86,31 +102,26 @@ class _PenukaranPoinAdminState extends State<PenukaranPoinAdmin> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                onPressed: _hideNotification,
-                                child: Text(
-                                  'Tolak',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: _hideNotification,
+                                onPressed: () async {
+                                  await viewModel.confirmTukarPoin(userId);
+                                  Utils.showSuccessSnackBar(
+                                    Overlay.of(context),
+                                    "Point Berhasil Ditukar",
+                                  );
+                                },
                                 child: Text(
                                   'Konfirmasi',
                                   style: TextStyle(color: Colors.blue),
                                 ),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
-                    )
-                  : Text(
-                      'No notifications',
-                      style: TextStyle(fontSize: 18),
-                    ),
-            ),
-          ),
-        ],
+                    );
+                  }).toList(),
+                ),
+        ),
       ),
     );
   }

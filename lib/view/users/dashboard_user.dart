@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class DashboardUser extends StatefulWidget {
-  const DashboardUser({Key? key});
+  const DashboardUser({super.key});
 
   @override
   State<DashboardUser> createState() => _DashboardUserState();
@@ -42,6 +42,7 @@ class _DashboardUserState extends State<DashboardUser> {
             child: GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, RouteNames.profil);
+                viewModelAkun.fetchUserPoints();
               },
               child: CircleAvatar(
                 radius: 20,
@@ -88,7 +89,7 @@ class _DashboardUserState extends State<DashboardUser> {
                       } else {
                         final userPoints = snapshot.data ?? 0;
                         final formattedPoints = formatNumber(userPoints);
-                        final equivalentMoney = userPoints ~/ 100;
+                        final equivalentMoney = userPoints;
                         final formattedMoney = formatNumber(equivalentMoney);
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

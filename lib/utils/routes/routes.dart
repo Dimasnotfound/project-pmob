@@ -13,10 +13,11 @@ import 'package:trash_solver/view/login_screen.dart';
 import 'package:trash_solver/view/registrasi_screen.dart';
 import 'package:trash_solver/view/admin/navbar_admin.dart';
 import 'package:trash_solver/view/users/artikel/detailArtikel.dart';
-import 'package:trash_solver/view/users/jenis_sampah/detil_jenisSampah.dart';
+import 'package:trash_solver/view/users/jenis_sampah/detilJenisSampah.dart';
 import 'package:trash_solver/view/users/lokasi_daurulang/lokasi_daur_ulang.dart';
 import 'package:trash_solver/view/users/navbar_user.dart';
 import 'package:trash_solver/view/users/profil/profil.dart';
+import 'package:trash_solver/view/users/tukar_poin/tukar_uang.dart';
 
 class Routes {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
@@ -83,6 +84,9 @@ class Routes {
       case (RouteNames.profil):
         return MaterialPageRoute(
             builder: (BuildContext context) => const Profil());
+      case (RouteNames.tukarUang):
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const TukarUang());
 
       default:
         return MaterialPageRoute(

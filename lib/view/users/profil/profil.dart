@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trash_solver/utils/routes/routes_names.dart';
+import 'package:trash_solver/utils/utils.dart';
 import 'package:trash_solver/viewmodel/login_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,17 @@ class _ProfilState extends State<Profil> {
   bool isEditingNama = false;
   bool isEditingAlamat = false;
   bool isEditingNoHp = false;
-  bool isEditingPoints = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final viewModelAkun = context.read<LoginViewModel>();
+      viewModelAkun.fetchUserData().then((_) {
+        setState(() {});
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,34 +57,6 @@ class _ProfilState extends State<Profil> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // CircleAvatar(
-            //   radius: 80,
-            //   backgroundColor: Colors.white, // Tambahkan warna latar belakang
-            //   child: Stack(
-            //     children: const [
-            //       // ClipOval(
-            //       //   child: Image.asset(
-            //       //     'assets/profile_image.png',
-            //       //     width: 150, // Atur lebar gambar sesuai kebutuhan Anda
-            //       //     height: 150, // Atur tinggi gambar sesuai kebutuhan Anda
-            //       //     fit: BoxFit.cover,
-            //       //   ),
-            //       // ),
-            //       // Align(
-            //       //   alignment: Alignment.bottomRight,
-            //       //   child: CircleAvatar(
-            //       //     backgroundColor: Colors.green,
-            //       //     radius: 25,
-            //       //     child: Icon(
-            //       //       Icons.camera_alt,
-            //       //       color: Colors.white,
-            //       //       size: 20,
-            //       //     ),
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
             SizedBox(height: 40),
             Container(
               padding: EdgeInsets.all(16.0),
@@ -122,22 +105,22 @@ class _ProfilState extends State<Profil> {
                       });
                     },
                   ),
-                  ProfileItem(
+                  ProfileItemStatic(
                     title: 'Point',
-                    controller: viewModelAkun.pointsController,
-                    isEditing: isEditingPoints,
-                    onEdit: () {
-                      setState(() {
-                        isEditingPoints = !isEditingPoints;
-                      });
-                    },
+                    content: viewModelAkun.pointsController.text,
                   ),
                 ],
               ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: viewModelAkun.updateUserData,
+              onPressed: () {
+                viewModelAkun.updateUserData;
+                Utils.showSuccessSnackBar(
+                  Overlay.of(context),
+                  "Data Telah Diupdate",
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey.shade700,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
@@ -240,6 +223,39 @@ class ProfileItem extends StatelessWidget {
                 ),
                 child: Text(controller.text),
               ),
+        SizedBox(height: 10),
+      ],
+    );
+  }
+}
+
+class ProfileItemStatic extends StatelessWidget {
+  final String title;
+  final String content;
+
+  ProfileItemStatic({required this.title, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(bottom: 5),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.black, width: 1),
+            ),
+          ),
+          child: Text(content),
+        ),
         SizedBox(height: 10),
       ],
     );

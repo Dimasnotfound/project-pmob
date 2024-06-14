@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trash_solver/viewmodel/sampah_viewmodel.dart';
+import 'package:trash_solver/utils/routes/routes_names.dart';
+import 'package:trash_solver/utils/utils.dart';
 
 class TukarPoin extends StatefulWidget {
   const TukarPoin({super.key});
@@ -15,6 +17,7 @@ class _TukarPoinState extends State<TukarPoin> {
   final TextEditingController _kiloController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final NumberFormat _numberFormat = NumberFormat.decimalPattern();
+  int userPoints = 0;
 
   String formatNumber(int number) {
     return _numberFormat.format(number);
@@ -24,11 +27,15 @@ class _TukarPoinState extends State<TukarPoin> {
   void initState() {
     super.initState();
     Provider.of<SampahViewModel>(context, listen: false).fetchSampah();
+    _fetchUserPoints();
   }
 
-  void _showErrorSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  Future<void> _fetchUserPoints() async {
+    final viewModel = Provider.of<SampahViewModel>(context, listen: false);
+    final points = await viewModel.fetchUserPoints();
+    setState(() {
+      userPoints = points;
+    });
   }
 
   @override
@@ -66,7 +73,6 @@ class _TukarPoinState extends State<TukarPoin> {
                   ),
                 ),
                 SizedBox(height: 10),
-                // Bagian yang diubah
                 FutureBuilder<int>(
                   future: viewModel.fetchUserPoints(),
                   builder: (context, AsyncSnapshot<int> snapshot) {
@@ -75,10 +81,8 @@ class _TukarPoinState extends State<TukarPoin> {
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else {
-                      final userPoints =
-                          snapshot.data ?? 0; // Menangani nilai null
                       final formattedPoints = formatNumber(userPoints);
-                      final equivalentMoney = userPoints ~/ 100;
+                      final equivalentMoney = userPoints;
                       final formattedMoney = formatNumber(equivalentMoney);
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,10 +113,14 @@ class _TukarPoinState extends State<TukarPoin> {
                     }
                   },
                 ),
-
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, RouteNames.tukarUang)
+                        .then((_) {
+                      _fetchUserPoints();
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.lightBlue,
@@ -179,14 +187,19 @@ class _TukarPoinState extends State<TukarPoin> {
                           onPressed: () async {
                             User? user = _auth.currentUser;
                             if (_kiloController.text.isEmpty) {
-                              _showErrorSnackBar(
-                                  context, "Data Tidak Boleh Kosong");
+                              Utils.showErrorSnackBar(
+                                Overlay.of(context),
+                                "Data Tidak Boleh Kosong",
+                              );
                               return;
                             }
                             final userId = user?.uid;
                             if (userId == null) {
-                              _showErrorSnackBar(
-                                  context, "User tidak ditemukan");
+                              Utils.showErrorSnackBar(
+                                Overlay.of(context),
+                                "User tidak ditemukan",
+                              );
+
                               return;
                             }
                             final kilo = double.parse(_kiloController.text);
@@ -195,7 +208,12 @@ class _TukarPoinState extends State<TukarPoin> {
                               viewModel.selectedSampah!,
                               kilo,
                             );
+                            Utils.showSuccessSnackBar(
+                              Overlay.of(context),
+                              "Sampah Berhasil Ditukar",
+                            );
                             _kiloController.clear();
+                            _fetchUserPoints(); // Update points after exchange
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.lightGreen,

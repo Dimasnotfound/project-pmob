@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trash_solver/viewmodel/editartikel_viewmodel.dart';
 import 'package:trash_solver/viewmodel/editdaurulang_viewmodel.dart';
 import 'package:trash_solver/viewmodel/jadwalpenjemputan_viewmodel.dart';
+import 'package:trash_solver/viewmodel/penukaranPoin_viewmodel.dart';
 import 'package:trash_solver/viewmodel/sampah_viewmodel.dart';
 import 'package:trash_solver/viewmodel/tambahartikel_viewmodel.dart';
 import 'package:trash_solver/viewmodel/tambahdaurulang_viewmodel.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => TambahartikelViewmodel()),
           ChangeNotifierProvider(create: (_) => JadwalpenjemputanViewmodel()),
           ChangeNotifierProvider(create: (_) => SampahViewModel()),
+          ChangeNotifierProvider(create: (_) => PenukaranPoinAdminViewModel()),
         ],
         child: MaterialApp(
           title: 'Trash Solver',

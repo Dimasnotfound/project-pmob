@@ -19,4 +19,5 @@ class RouteNames {
   static const String detilSampah = "detil_sampah";
   static const String lokasi = "lokasi_daurulang";
   static const String profil = "profil";
+  static const String tukarUang = "tukarUang";
 }
