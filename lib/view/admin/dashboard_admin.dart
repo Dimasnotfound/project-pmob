@@ -55,6 +55,27 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                 textStyle: TextStyle(fontSize: 16),
               ),
             ),
+            SizedBox(height: 16),
+            AdminOptionCard(
+              title: 'Jenis Daur Ulang',
+              color: Colors.green,
+              onPressed: widget.navigateToDaurUlang,
+            ),
+            AdminOptionCard(
+              title: 'Artikel',
+              color: Colors.red,
+              onPressed: widget.navigateToArtikel,
+            ),
+            AdminOptionCard(
+              title: 'Jadwal Penjemputan',
+              color: Colors.orange,
+              onPressed: widget.navigateToJadwalPenjemputan,
+            ),
+            AdminOptionCard(
+              title: 'Penukaran Uang',
+              color: Colors.blue,
+              onPressed: widget.navigateToPenukaranUang,
+            ),
             TextButton(
               onPressed: () {
                 showDialog(
@@ -83,30 +104,9 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                 );
               },
               child: Text(
-                'Delete',
+                'Logout',
                 style: TextStyle(color: Colors.red),
               ),
-            ),
-            SizedBox(height: 16),
-            AdminOptionCard(
-              title: 'Jenis Daur Ulang',
-              color: Colors.green,
-              onPressed: widget.navigateToDaurUlang,
-            ),
-            AdminOptionCard(
-              title: 'Artikel',
-              color: Colors.red,
-              onPressed: widget.navigateToArtikel,
-            ),
-            AdminOptionCard(
-              title: 'Jadwal Penjemputan',
-              color: Colors.orange,
-              onPressed: widget.navigateToJadwalPenjemputan,
-            ),
-            AdminOptionCard(
-              title: 'Penukaran Uang',
-              color: Colors.blue,
-              onPressed: widget.navigateToPenukaranUang,
             ),
           ],
         ),

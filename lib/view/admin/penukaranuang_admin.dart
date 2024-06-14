@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trash_solver/viewmodel/penukaranUangAdmin_viewmodel.dart';
 
 class PenukaranuangAdmin extends StatefulWidget {
   const PenukaranuangAdmin({super.key});
@@ -8,6 +10,12 @@ class PenukaranuangAdmin extends StatefulWidget {
 }
 
 class _PenukaranuangAdminState extends State<PenukaranuangAdmin> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PenukaranUangAdminViewModel>().fetchTukarUangData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,85 +29,128 @@ class _PenukaranuangAdminState extends State<PenukaranuangAdmin> {
         ),
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF8AB4F8),
-        centerTitle: true, // Adjust this color as needed
+        centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter, // Align the box to the top center
-            child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 16.0), // Add some padding to the top
-                child: Container(
-                  margin: EdgeInsets.all(16.0),
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 10.0,
-                        spreadRadius: 2.0,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'User 1',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+      body: Consumer<PenukaranUangAdminViewModel>(
+        builder: (context, viewModel, child) {
+          if (viewModel.isLoading) {
+            return Center(child: CircularProgressIndicator());
+          } else if (viewModel.groupedTukarUangData.isEmpty) {
+            return Center(child: Text('Tidak Ada Data Penukaran'));
+          } else {
+            return ListView.builder(
+              itemCount: viewModel.groupedTukarUangData.length,
+              itemBuilder: (context, index) {
+                final userId =
+                    viewModel.groupedTukarUangData.keys.elementAt(index);
+                final userTransactions =
+                    viewModel.groupedTukarUangData[userId]!;
+
+                return Column(
+                  children: userTransactions.map((transaction) {
+                    String assetPath;
+                    double assetHeight = 24;
+                    switch (transaction['method']) {
+                      case 'DANA':
+                        assetPath = 'assets/danalogo.png';
+                        break;
+                      case 'gopay':
+                        assetPath = 'assets/gopay.png';
+                        assetHeight = 64;
+                        break;
+                      case 'OVO':
+                        assetPath = 'assets/ovo.png';
+                        break;
+                      default:
+                        assetPath = 'assets/unknown.png';
+                        break;
+                    }
+
+                    final formattedPoints = viewModel
+                        .formatNumber(transaction['points_yang_ditukar']);
+
+                    return Container(
+                      margin: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 10.0,
+                            spreadRadius: 2.0,
+                          )
+                        ],
                       ),
-                      SizedBox(height: 8.0),
-                      Text('Menukarkan:'),
-                      SizedBox(height: 8.0),
-                      Text(
-                        '100.000 Poin',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8.0),
-                      Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Via :',
+                            transaction['userName'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          // memberikan jarak antara teks dan gambar
-                          Image.asset(
-                            'assets/danalogo.png', // Path to DANA logo image asset
-                            height: 24,
+                          SizedBox(height: 8.0),
+                          Text('Menukarkan:'),
+                          SizedBox(height: 8.0),
+                          Text(
+                            '$formattedPoints Poin / Rp $formattedPoints',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            children: [
+                              Text('Via:'),
+                              SizedBox(width: 8.0),
+                              Image.asset(
+                                assetPath,
+                                height: assetHeight,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () async {
+                                  await viewModel.tolakPenukaran(
+                                    transaction['userId'],
+                                    transaction['docId'],
+                                    transaction['points_yang_ditukar'],
+                                  );
+                                },
+                                child: Text(
+                                  'Tolak',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await viewModel.konfirmasiPenukaran(
+                                    transaction['docId'],
+                                  );
+                                },
+                                child: Text(
+                                  'Konfirmasi',
+                                  style: TextStyle(color: Colors.blue),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      SizedBox(height: 16.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Tolak',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Konfirmasi',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )),
-          ),
-        ],
+                    );
+                  }).toList(),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }
